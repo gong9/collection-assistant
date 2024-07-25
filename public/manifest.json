@@ -1,14 +1,17 @@
 {
   "manifest_version": 3,
   "name": "姐就是女王",
-  "description": "运营数据收集助手",
-  "version": "1.1",
+  "description": "靳姐专用",
+  "version": "1.2",
   "options_ui": {
     "page": "options.html"
   },
-
+  "icons": {
+    "128": "128.png",
+    "48": "48.png"
+  },
   "action": {
-    "default_icon": "icon.png",
+    "default_icon": "128.png",
     "default_popup": "popup.html"
   },
   "content_scripts": [
