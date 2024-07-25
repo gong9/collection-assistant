@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import * as XLSX from "xlsx";
 
 
@@ -23,8 +22,10 @@ const App = () => {
     };
 
     return (
-        <div style={{ minWidth: "500px" }}>
-            <button onClick={generate}>生成</button>
+        <div className="w-[100px] flex justify-center bg-violet-500">
+            <button onClick={generate} className="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:ring focus:ring-violet-300 rounded-md py-2 px-4 text-white font-semibold shadow-md">
+                生成execl
+            </button>
         </div>
     );
 };
