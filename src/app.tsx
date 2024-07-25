@@ -1,35 +1,22 @@
 import { useState, useEffect } from 'react'
+import * as XLSX from "xlsx";
+
 
 const App = () => {
-    const [count, setCount] = useState(0);
-    const [currentURL, setCurrentURL] = useState<string>();
-    const [data, setData] = useState<any>();
-
-    useEffect(() => {
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            setCurrentURL(tabs[0].url);
-        });
-    }, []);
-
     const generate = () => {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             const tab = tabs[0];
             if (tab.id) {
                 chrome.tabs.sendMessage(tab.id, { action: "getDOM" }, function (response) {
-                    if (chrome.runtime.lastError) {
-                        console.error(JSON.stringify(chrome.runtime.lastError));
-                        return;
-                    }
-                    if (response.status === 'contentSent') {
-                        console.log("元素内容已发送到背景脚本进行处理");
+                    const book = XLSX.utils.book_new()
+                    const sheet = XLSX.utils.json_to_sheet(response.data, {
+                        header: ['买手信息', '买手粉丝数', '本店合作销售额', '本店合作商品数']
+                    })
 
-                        // 监听来自背景脚本的完成通知
-                        chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-                            if (request.action === 'downloadComplete') {
-                                console.log("Excel文件生成并下载成功");
-                            }
-                        });
-                    }
+                    XLSX.utils.book_append_sheet(book, sheet, 'Sheet1')
+
+                    // 写入文件，直接触发浏览器的下载
+                    XLSX.writeFile(book, 'json2Sheet.xlsx')
                 });
             }
         });
