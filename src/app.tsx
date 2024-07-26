@@ -12,8 +12,6 @@ const App = () => {
           })
 
           XLSX.utils.book_append_sheet(book, sheet, 'Sheet1')
-
-          // 写入文件，直接触发浏览器的下载
           XLSX.writeFile(book, 'json2Sheet.xlsx')
         })
       }
